@@ -1,0 +1,32 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.pytest_cache/
+.pytest_cache/
+
+# Node.js / Frontend dependencies
+node_modules/
+frontend/node_modules/
+frontend/.vite/
+
+# Large binaries and portable tools (FFmpeg, Node binaries)
+tools/
+
+# Storage & Runtime databases
+backend/storage/*.db
+backend/storage/uploads/*
+!backend/storage/uploads/.gitkeep
+backend/storage/highlights/*
+!backend/storage/highlights/.gitkeep
+
+# Environment & Logs
+.env
+*.log
+.venv/
+env/
+venv/
+
+# OS generated files
+.DS_Store
+Thumbs.db

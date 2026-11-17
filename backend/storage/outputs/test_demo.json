@@ -1,0 +1,82 @@
+{
+ "team_id": "T07",
+ "video_id": "test_demo",
+ "duration_sec": 15.0,
+ "label": {
+  "name": "cooking",
+  "score": 0.71
+ },
+ "actions": [
+  {
+   "segment": [
+    0.0,
+    6.5
+   ],
+   "verb": "pour",
+   "noun": "oil",
+   "score": 0.63
+  },
+  {
+   "segment": [
+    3.5,
+    8.0
+   ],
+   "verb": "pour",
+   "noun": "bottle",
+   "score": 0.57
+  },
+  {
+   "segment": [
+    5.0,
+    11.0
+   ],
+   "verb": "pour",
+   "noun": "oil",
+   "score": 0.63
+  },
+  {
+   "segment": [
+    8.0,
+    12.5
+   ],
+   "verb": "pour",
+   "noun": "bottle",
+   "score": 0.57
+  },
+  {
+   "segment": [
+    9.5,
+    12.5
+   ],
+   "verb": "pour",
+   "noun": "oil",
+   "score": 0.63
+  },
+  {
+   "segment": [
+    11.0,
+    14.5
+   ],
+   "verb": "pour",
+   "noun": "bottle",
+   "score": 0.57
+  },
+  {
+   "segment": [
+    12.5,
+    14.0
+   ],
+   "verb": "pour",
+   "noun": "oil",
+   "score": 0.63
+  }
+ ],
+ "highlights": [
+  {
+   "segment": [
+    0.0,
+    4.0
+   ]
+  }
+ ]
+}

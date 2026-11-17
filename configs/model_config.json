@@ -1,0 +1,33 @@
+{
+  "system": {
+    "team_id": "T07",
+    "device": "cpu",
+    "weights_dir": "weights/keras_cache/models",
+    "weights_filename": "weights_mobilenet_v3_small_224_1.0_float.h5"
+  },
+  "sampling": {
+    "target_fps": 2.0,
+    "max_frame_dimension": 360,
+    "model_input_size": [224, 224]
+  },
+  "action_recognition": {
+    "window_scales": [2.5, 5.0, 8.0],
+    "window_step_sec": 1.5,
+    "confidence_threshold": 0.40,
+    "nms_iou_threshold": 0.35,
+    "pair_prior_weight": 0.35,
+    "visual_evidence_weight": 0.65
+  },
+  "importance_scoring": {
+    "weight_motion": 0.35,
+    "weight_action": 0.45,
+    "weight_novelty": 0.20
+  },
+  "highlight_optimization": {
+    "target_budget_ratio": 0.145,
+    "max_budget_ratio": 0.150,
+    "min_segment_length_sec": 4.0,
+    "segment_padding_sec": 0.5
+  }
+}
+

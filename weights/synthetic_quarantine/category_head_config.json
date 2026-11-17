@@ -1,0 +1,26 @@
+{
+  "classes": [
+    "bike",
+    "bikepolo",
+    "boxing",
+    "cooking",
+    "horse",
+    "jumping",
+    "longboarding",
+    "motor",
+    "parkour",
+    "plane",
+    "rockclimbing",
+    "scuba",
+    "skate",
+    "ski",
+    "surfing",
+    "other"
+  ],
+  "num_classes": 16,
+  "input_dim": 1024,
+  "hidden_dim": 128,
+  "val_accuracy": 0.8063,
+  "val_macro_f1": 0.7952,
+  "trained_at": "2026-10-24T16:16:55Z"
+}

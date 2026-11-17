@@ -1,0 +1,37 @@
+{
+ "team_id": "T07",
+ "video_id": "ScreenRecording2026-09-19170855",
+ "duration_sec": 8.7,
+ "label": {
+  "name": "cooking",
+  "score": 0.92
+ },
+ "actions": [
+  {
+   "segment": [
+    1.5,
+    8.0
+   ],
+   "verb": "pour",
+   "noun": "bottle",
+   "score": 0.51
+  },
+  {
+   "segment": [
+    3.0,
+    8.0
+   ],
+   "verb": "pour",
+   "noun": "oil",
+   "score": 0.6
+  }
+ ],
+ "highlights": [
+  {
+   "segment": [
+    0.0,
+    4.0
+   ]
+  }
+ ]
+}

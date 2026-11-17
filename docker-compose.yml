@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  egoweave:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: egoweave-studio
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend/storage:/app/backend/storage
+      - ./outputs:/app/outputs
+    environment:
+      - TEAM_ID=T07
+    restart: unless-stopped
+

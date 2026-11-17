@@ -1,0 +1,820 @@
+{
+ "team_id": "T07",
+ "video_id": "test_120s",
+ "duration_sec": 120.0,
+ "label": {
+  "name": "cooking",
+  "score": 0.96
+ },
+ "actions": [
+  {
+   "segment": [
+    0.0,
+    2.5
+   ],
+   "verb": "open",
+   "noun": "fridge",
+   "score": 0.67
+  },
+  {
+   "segment": [
+    0.0,
+    8.0
+   ],
+   "verb": "open",
+   "noun": "fridge",
+   "score": 0.67
+  },
+  {
+   "segment": [
+    2.0,
+    4.5
+   ],
+   "verb": "open",
+   "noun": "fridge",
+   "score": 0.67
+  },
+  {
+   "segment": [
+    4.0,
+    6.5
+   ],
+   "verb": "open",
+   "noun": "fridge",
+   "score": 0.67
+  },
+  {
+   "segment": [
+    4.0,
+    12.0
+   ],
+   "verb": "open",
+   "noun": "fridge",
+   "score": 0.67
+  },
+  {
+   "segment": [
+    6.0,
+    8.5
+   ],
+   "verb": "open",
+   "noun": "fridge",
+   "score": 0.67
+  },
+  {
+   "segment": [
+    8.0,
+    10.5
+   ],
+   "verb": "open",
+   "noun": "fridge",
+   "score": 0.68
+  },
+  {
+   "segment": [
+    8.0,
+    16.0
+   ],
+   "verb": "open",
+   "noun": "fridge",
+   "score": 0.67
+  },
+  {
+   "segment": [
+    10.0,
+    12.5
+   ],
+   "verb": "open",
+   "noun": "fridge",
+   "score": 0.68
+  },
+  {
+   "segment": [
+    12.0,
+    14.5
+   ],
+   "verb": "open",
+   "noun": "fridge",
+   "score": 0.67
+  },
+  {
+   "segment": [
+    12.0,
+    20.0
+   ],
+   "verb": "take",
+   "noun": "plate",
+   "score": 0.62
+  },
+  {
+   "segment": [
+    14.0,
+    16.5
+   ],
+   "verb": "take",
+   "noun": "plate",
+   "score": 0.62
+  },
+  {
+   "segment": [
+    16.0,
+    18.5
+   ],
+   "verb": "take",
+   "noun": "plate",
+   "score": 0.62
+  },
+  {
+   "segment": [
+    16.0,
+    24.0
+   ],
+   "verb": "take",
+   "noun": "plate",
+   "score": 0.62
+  },
+  {
+   "segment": [
+    18.0,
+    20.5
+   ],
+   "verb": "take",
+   "noun": "plate",
+   "score": 0.64
+  },
+  {
+   "segment": [
+    20.0,
+    22.5
+   ],
+   "verb": "take",
+   "noun": "plate",
+   "score": 0.63
+  },
+  {
+   "segment": [
+    20.0,
+    28.0
+   ],
+   "verb": "take",
+   "noun": "plate",
+   "score": 0.62
+  },
+  {
+   "segment": [
+    22.0,
+    24.5
+   ],
+   "verb": "take",
+   "noun": "plate",
+   "score": 0.62
+  },
+  {
+   "segment": [
+    24.0,
+    26.5
+   ],
+   "verb": "take",
+   "noun": "plate",
+   "score": 0.62
+  },
+  {
+   "segment": [
+    24.0,
+    32.0
+   ],
+   "verb": "take",
+   "noun": "plate",
+   "score": 0.62
+  },
+  {
+   "segment": [
+    26.0,
+    34.0
+   ],
+   "verb": "cut",
+   "noun": "onion",
+   "score": 0.66
+  },
+  {
+   "segment": [
+    26.0,
+    28.5
+   ],
+   "verb": "take",
+   "noun": "plate",
+   "score": 0.62
+  },
+  {
+   "segment": [
+    28.0,
+    30.5
+   ],
+   "verb": "take",
+   "noun": "plate",
+   "score": 0.63
+  },
+  {
+   "segment": [
+    30.0,
+    32.5
+   ],
+   "verb": "cut",
+   "noun": "onion",
+   "score": 0.67
+  },
+  {
+   "segment": [
+    30.0,
+    38.0
+   ],
+   "verb": "cut",
+   "noun": "onion",
+   "score": 0.66
+  },
+  {
+   "segment": [
+    32.0,
+    34.5
+   ],
+   "verb": "cut",
+   "noun": "onion",
+   "score": 0.65
+  },
+  {
+   "segment": [
+    34.0,
+    42.0
+   ],
+   "verb": "cut",
+   "noun": "onion",
+   "score": 0.66
+  },
+  {
+   "segment": [
+    34.0,
+    36.5
+   ],
+   "verb": "cut",
+   "noun": "onion",
+   "score": 0.65
+  },
+  {
+   "segment": [
+    36.0,
+    38.5
+   ],
+   "verb": "cut",
+   "noun": "onion",
+   "score": 0.65
+  },
+  {
+   "segment": [
+    38.0,
+    40.5
+   ],
+   "verb": "cut",
+   "noun": "onion",
+   "score": 0.67
+  },
+  {
+   "segment": [
+    38.0,
+    46.0
+   ],
+   "verb": "cut",
+   "noun": "onion",
+   "score": 0.66
+  },
+  {
+   "segment": [
+    40.0,
+    42.5
+   ],
+   "verb": "cut",
+   "noun": "onion",
+   "score": 0.67
+  },
+  {
+   "segment": [
+    42.0,
+    50.0
+   ],
+   "verb": "cut",
+   "noun": "onion",
+   "score": 0.66
+  },
+  {
+   "segment": [
+    42.0,
+    44.5
+   ],
+   "verb": "cut",
+   "noun": "onion",
+   "score": 0.65
+  },
+  {
+   "segment": [
+    44.0,
+    46.5
+   ],
+   "verb": "cut",
+   "noun": "onion",
+   "score": 0.65
+  },
+  {
+   "segment": [
+    46.0,
+    54.0
+   ],
+   "verb": "cut",
+   "noun": "onion",
+   "score": 0.66
+  },
+  {
+   "segment": [
+    46.0,
+    48.5
+   ],
+   "verb": "cut",
+   "noun": "onion",
+   "score": 0.65
+  },
+  {
+   "segment": [
+    48.0,
+    50.5
+   ],
+   "verb": "cut",
+   "noun": "onion",
+   "score": 0.67
+  },
+  {
+   "segment": [
+    50.0,
+    52.5
+   ],
+   "verb": "cut",
+   "noun": "onion",
+   "score": 0.67
+  },
+  {
+   "segment": [
+    50.0,
+    58.0
+   ],
+   "verb": "cut",
+   "noun": "onion",
+   "score": 0.66
+  },
+  {
+   "segment": [
+    52.0,
+    54.5
+   ],
+   "verb": "cut",
+   "noun": "onion",
+   "score": 0.65
+  },
+  {
+   "segment": [
+    54.0,
+    62.0
+   ],
+   "verb": "cut",
+   "noun": "onion",
+   "score": 0.66
+  },
+  {
+   "segment": [
+    54.0,
+    56.5
+   ],
+   "verb": "cut",
+   "noun": "onion",
+   "score": 0.65
+  },
+  {
+   "segment": [
+    56.0,
+    58.5
+   ],
+   "verb": "cut",
+   "noun": "onion",
+   "score": 0.65
+  },
+  {
+   "segment": [
+    58.0,
+    60.5
+   ],
+   "verb": "cut",
+   "noun": "onion",
+   "score": 0.67
+  },
+  {
+   "segment": [
+    58.0,
+    66.0
+   ],
+   "verb": "cut",
+   "noun": "onion",
+   "score": 0.66
+  },
+  {
+   "segment": [
+    60.0,
+    62.5
+   ],
+   "verb": "cut",
+   "noun": "onion",
+   "score": 0.67
+  },
+  {
+   "segment": [
+    62.0,
+    70.0
+   ],
+   "verb": "cut",
+   "noun": "onion",
+   "score": 0.66
+  },
+  {
+   "segment": [
+    62.0,
+    64.5
+   ],
+   "verb": "cut",
+   "noun": "onion",
+   "score": 0.65
+  },
+  {
+   "segment": [
+    64.0,
+    66.5
+   ],
+   "verb": "cut",
+   "noun": "onion",
+   "score": 0.65
+  },
+  {
+   "segment": [
+    66.0,
+    74.0
+   ],
+   "verb": "cut",
+   "noun": "onion",
+   "score": 0.66
+  },
+  {
+   "segment": [
+    66.0,
+    68.5
+   ],
+   "verb": "cut",
+   "noun": "onion",
+   "score": 0.65
+  },
+  {
+   "segment": [
+    68.0,
+    70.5
+   ],
+   "verb": "cut",
+   "noun": "onion",
+   "score": 0.67
+  },
+  {
+   "segment": [
+    70.0,
+    72.5
+   ],
+   "verb": "cut",
+   "noun": "onion",
+   "score": 0.67
+  },
+  {
+   "segment": [
+    70.0,
+    78.0
+   ],
+   "verb": "cut",
+   "noun": "onion",
+   "score": 0.66
+  },
+  {
+   "segment": [
+    72.0,
+    74.5
+   ],
+   "verb": "cut",
+   "noun": "onion",
+   "score": 0.65
+  },
+  {
+   "segment": [
+    74.0,
+    76.5
+   ],
+   "verb": "cut",
+   "noun": "onion",
+   "score": 0.65
+  },
+  {
+   "segment": [
+    74.0,
+    82.0
+   ],
+   "verb": "wash",
+   "noun": "knife",
+   "score": 0.63
+  },
+  {
+   "segment": [
+    76.0,
+    78.5
+   ],
+   "verb": "cut",
+   "noun": "onion",
+   "score": 0.65
+  },
+  {
+   "segment": [
+    78.0,
+    80.5
+   ],
+   "verb": "wash",
+   "noun": "knife",
+   "score": 0.64
+  },
+  {
+   "segment": [
+    78.0,
+    86.0
+   ],
+   "verb": "wash",
+   "noun": "knife",
+   "score": 0.63
+  },
+  {
+   "segment": [
+    80.0,
+    82.5
+   ],
+   "verb": "wash",
+   "noun": "knife",
+   "score": 0.64
+  },
+  {
+   "segment": [
+    82.0,
+    90.0
+   ],
+   "verb": "wash",
+   "noun": "knife",
+   "score": 0.63
+  },
+  {
+   "segment": [
+    82.0,
+    84.5
+   ],
+   "verb": "wash",
+   "noun": "knife",
+   "score": 0.62
+  },
+  {
+   "segment": [
+    84.0,
+    86.5
+   ],
+   "verb": "wash",
+   "noun": "knife",
+   "score": 0.62
+  },
+  {
+   "segment": [
+    86.0,
+    94.0
+   ],
+   "verb": "wash",
+   "noun": "knife",
+   "score": 0.63
+  },
+  {
+   "segment": [
+    86.0,
+    88.5
+   ],
+   "verb": "wash",
+   "noun": "knife",
+   "score": 0.62
+  },
+  {
+   "segment": [
+    88.0,
+    90.5
+   ],
+   "verb": "wash",
+   "noun": "knife",
+   "score": 0.64
+  },
+  {
+   "segment": [
+    90.0,
+    92.5
+   ],
+   "verb": "wash",
+   "noun": "knife",
+   "score": 0.64
+  },
+  {
+   "segment": [
+    90.0,
+    98.0
+   ],
+   "verb": "wash",
+   "noun": "knife",
+   "score": 0.63
+  },
+  {
+   "segment": [
+    92.0,
+    94.5
+   ],
+   "verb": "wash",
+   "noun": "knife",
+   "score": 0.62
+  },
+  {
+   "segment": [
+    94.0,
+    102.0
+   ],
+   "verb": "wash",
+   "noun": "knife",
+   "score": 0.63
+  },
+  {
+   "segment": [
+    94.0,
+    96.5
+   ],
+   "verb": "wash",
+   "noun": "knife",
+   "score": 0.62
+  },
+  {
+   "segment": [
+    96.0,
+    98.5
+   ],
+   "verb": "wash",
+   "noun": "knife",
+   "score": 0.62
+  },
+  {
+   "segment": [
+    98.0,
+    100.5
+   ],
+   "verb": "wash",
+   "noun": "knife",
+   "score": 0.64
+  },
+  {
+   "segment": [
+    100.0,
+    105.0
+   ],
+   "verb": "turn-off",
+   "noun": "tap",
+   "score": 0.66
+  },
+  {
+   "segment": [
+    100.0,
+    102.5
+   ],
+   "verb": "wash",
+   "noun": "knife",
+   "score": 0.64
+  },
+  {
+   "segment": [
+    102.0,
+    110.0
+   ],
+   "verb": "turn-off",
+   "noun": "tap",
+   "score": 0.66
+  },
+  {
+   "segment": [
+    104.0,
+    106.5
+   ],
+   "verb": "turn-off",
+   "noun": "tap",
+   "score": 0.65
+  },
+  {
+   "segment": [
+    106.0,
+    114.0
+   ],
+   "verb": "turn-off",
+   "noun": "tap",
+   "score": 0.66
+  },
+  {
+   "segment": [
+    106.0,
+    108.5
+   ],
+   "verb": "turn-off",
+   "noun": "tap",
+   "score": 0.65
+  },
+  {
+   "segment": [
+    108.0,
+    110.5
+   ],
+   "verb": "turn-off",
+   "noun": "tap",
+   "score": 0.67
+  },
+  {
+   "segment": [
+    110.0,
+    112.5
+   ],
+   "verb": "turn-off",
+   "noun": "tap",
+   "score": 0.67
+  },
+  {
+   "segment": [
+    110.0,
+    118.0
+   ],
+   "verb": "turn-off",
+   "noun": "tap",
+   "score": 0.66
+  },
+  {
+   "segment": [
+    112.0,
+    114.5
+   ],
+   "verb": "turn-off",
+   "noun": "tap",
+   "score": 0.65
+  },
+  {
+   "segment": [
+    114.0,
+    116.5
+   ],
+   "verb": "turn-off",
+   "noun": "tap",
+   "score": 0.65
+  },
+  {
+   "segment": [
+    116.0,
+    118.5
+   ],
+   "verb": "turn-off",
+   "noun": "tap",
+   "score": 0.65
+  }
+ ],
+ "highlights": [
+  {
+   "segment": [
+    7.2,
+    11.2
+   ]
+  },
+  {
+   "segment": [
+    25.2,
+    29.2
+   ]
+  },
+  {
+   "segment": [
+    29.2,
+    33.2
+   ]
+  },
+  {
+   "segment": [
+    37.2,
+    41.2
+   ]
+  }
+ ]
+}

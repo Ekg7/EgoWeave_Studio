@@ -1,0 +1,10 @@
+{
+  "num_classes": 301,
+  "input_dim": 1024,
+  "hidden_dim": 256,
+  "dropout": 0.2,
+  "val_accuracy_top1": 0.0249,
+  "val_accuracy_top5": 0.112,
+  "val_loss": 5.7794,
+  "trained_at": "2026-11-15T21:50:26Z"
+}

@@ -1,0 +1,91 @@
+{
+ "team_id": "T07",
+ "video_id": "test_demo",
+ "duration_sec": 15.0,
+ "label": {
+  "name": "cooking",
+  "score": 0.96
+ },
+ "actions": [
+  {
+   "segment": [
+    0.0,
+    2.5
+   ],
+   "verb": "open",
+   "noun": "fridge",
+   "score": 0.75
+  },
+  {
+   "segment": [
+    2.0,
+    7.0
+   ],
+   "verb": "cut",
+   "noun": "onion",
+   "score": 0.72
+  },
+  {
+   "segment": [
+    2.0,
+    4.5
+   ],
+   "verb": "take",
+   "noun": "plate",
+   "score": 0.68
+  },
+  {
+   "segment": [
+    4.0,
+    12.0
+   ],
+   "verb": "cut",
+   "noun": "onion",
+   "score": 0.72
+  },
+  {
+   "segment": [
+    6.0,
+    8.5
+   ],
+   "verb": "cut",
+   "noun": "onion",
+   "score": 0.72
+  },
+  {
+   "segment": [
+    8.0,
+    10.5
+   ],
+   "verb": "cut",
+   "noun": "onion",
+   "score": 0.72
+  },
+  {
+   "segment": [
+    10.0,
+    15.0
+   ],
+   "verb": "wash",
+   "noun": "knife",
+   "score": 0.69
+  },
+  {
+   "segment": [
+    12.0,
+    14.5
+   ],
+   "verb": "turn-off",
+   "noun": "tap",
+   "score": 0.72
+  }
+ ],
+ "highlights": [
+  {
+   "segment": [
+    0.0,
+    4.0
+   ]
+  }
+ ]
+}
