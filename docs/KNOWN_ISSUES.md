@@ -35,3 +35,11 @@
   - Optical flow novelty detection flags sudden camera rotational spikes.
   - Action proposals snap to optical flow valleys (hand pauses), avoiding blurred transition frames.
   - Multi-scale temporal windowing ($2.0\text{s}$, $4.0\text{s}$, $6.0\text{s}$) integrates visual evidence over multiple frames rather than relying on a single blurred frame.
+
+---
+
+## 4. 2D ImageNet Semantic Gap for Fine-Grained Egocentric Actions
+
+- **Issue:** Static 2D ImageNet-1K pretrained backbones lack vocabulary for common egocentric objects (e.g. `onion`, kitchen knives, cutting boards) and possess zero temporal awareness of verbs (`cut`, `pour`, `mix`, `wash`, `take`, `put`).
+- **Consequence:** In genuine cooking footage (such as `P23_01.mp4`), optical flow successfully isolates 8 motion intervals, but the visual model fails to ground `onion` ($p = 0.00022$) or `knife` ($p = 0.00283$), resulting in fallback `other / other` action predictions.
+- **Permanent Fix:** Requires replacing frame-by-frame 2D synset proxies with an egocentric video model (SlowFast / TSM) pretrained on EPIC-KITCHENS-100 verb-noun classes.

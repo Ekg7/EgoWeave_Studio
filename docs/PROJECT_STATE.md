@@ -79,27 +79,15 @@ The system processes long-form egocentric video input, recognizes fine-grained p
 
 ---
 
-## 3. Verified System Capabilities
+## 4. Current Empirical Status & Known Limitations
 
-1. **Strict 6-Key Official Contract:**
-   All exported JSON files conform strictly to the Hackathon Track 4 contract:
-   - `team_id` (string: `"T07"`)
-   - `video_id` (string matching video stem)
-   - `duration_sec` (positive float)
-   - `label` (`{ "name": str, "score": float }` in $[0.0, 1.0]$, 16 valid classes)
-   - `actions` (array of `{ "segment": [start, end], "verb": str, "noun": str, "score": float }`)
-   - `highlights` (array of `{ "segment": [start, end] }`, non-overlapping, sorted)
-   - Validated 100% clean with official `validate.py`.
+1. **Full-Stack Application & Pipeline Architecture:**
+   - Production FastAPI backend, SQLite persistence, React 18.3 UI, and FFmpeg highlight rendering are fully verified and functional.
+   - Video upload, streaming, timeline navigation, and interaction graph visualization work reliably.
+   - Outputs strictly conform to the 6-key Samsung Track 4 schema and pass `validate.py` 100%.
 
-2. **Grounded AI Inference:**
-   - Visual object detection using pretrained MobileNetV3Small backbone.
-   - Elimination of double-softmax distortion and multi-synset bias.
-   - Rejection of fabricated kitchen actions on non-kitchen footage (e.g. manufacturing clips correctly classify as `label: "other"` with generic or empty action sets).
-   - Motion valley boundary snapping for natural human action transitions.
-
-3. **Full-Stack Application:**
-   - React 18.3 + TypeScript + Tailwind CSS frontend.
-   - Interactive React Flow temporal interaction graph.
-   - Real-time video player with highlight playback mode.
-   - FastAPI asynchronous backend with SQLite persistence and Server-Sent Events (SSE).
-   - CLI execution mode via `run.ps1` / `run.sh` / `inference.cli`.
+2. **Empirical Action Recognition Audit (Onion-Cutting Test `P23_01.mp4`):**
+   - **Test Case:** A 91.86-second authentic first-person video of an operator chopping onions (`P23_01.mp4`).
+   - **Observed Result:** Video classified as `cooking (0.70)` via filename heuristics; 8 motion-based temporal segments detected; all 8 actions classified as `verb: "other", noun: "other"` (scores ~0.61); no `cut onion` recognized.
+   - **Diagnosis:** MobileNetV3Small (pretrained on ImageNet-1K) has zero semantic knowledge of onions (class absent from ImageNet), kitchen knives (only class 499 `cleaver`), or physical verbs (`cut`, `stir`, `wash`). The 8 proposals are purely optical-flow kinetic intervals.
+   - **Resolution Path:** Integration of a dedicated egocentric action recognition backbone (e.g. PySlowFast / TSM trained on EPIC-KITCHENS-100) to provide true verb (97 classes) and noun (300 classes) prediction.

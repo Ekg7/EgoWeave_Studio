@@ -32,3 +32,11 @@
 - **Context:** Videos $< 26.67\text{ s}$ cannot satisfy both $\le 15\%$ budget and $\ge 4.0\text{ s}$ segment length.
 - **Decision:** Enforce the mandatory $\ge 4.0\text{ s}$ segment constraint, as failing it is a hard rejection in `validate.py`. Update UI to indicate `Min 4.0s Rule Active (Short Clip < 26.7s)`.
 - **Rationale:** Guarantees submission validity while clearly explaining the constraint relationship to the user.
+
+### ADR-006: Dedicated Egocentric Action Model vs. 2D ImageNet Proxies
+- **Context:** Empirical testing on `P23_01.mp4` demonstrated that 2D ImageNet-1K models cannot recognize egocentric kitchen objects (e.g. onions, paring knives) or physical verbs (`cut`, `stir`, `wash`), reducing action proposals to `other / other`.
+- **Decision:** Decouple video processing into:
+  1. Optical flow motion valley boundary proposal (fast, lightweight, temporal localization).
+  2. Pretrained PySlowFast / TSM dual-head action classification (EPIC-KITCHENS-100 trained) on candidate temporal clips.
+  3. Pretrained video-level classifier (Kinetics / CLIP / concept voting) for 16-class activity categorization.
+- **Rationale:** Eliminates vocabulary mismatch (ImageNet lacks onions and verbs) and leverages established 70,000-action egocentric training weights without requiring prohibitive full-dataset retraining.

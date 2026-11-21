@@ -8,15 +8,11 @@
 
 ## 1. Project State at Handoff
 
-- **Application Health:** Fully functional, tested, and competition-ready.
-- **Repository Cleanliness:** Redundant root files removed; all tools point to canonical `student_kit/` files.
-- **AI Engine Quality:**
-  - Double-softmax bug resolved.
-  - Multi-synset concept bias eliminated.
-  - Synthetic heads quarantined.
-  - Category classifier supports all 16 classes including `"other"` with peak-to-margin thresholding.
-  - Action recognition uses grounded visual evidence and optical flow without fabricated fallbacks.
-  - Highlight optimizer enforces $\le 15\%$ budget and $\ge 4.0\text{s}$ segment length rules.
+- **Application Health:** Fully functional, tested, and competition-ready full-stack application (FastAPI + React 18.3 + SQLite).
+- **Recent Test Findings (EXP-06, P23_01.mp4):**
+  - Confirmed that pipeline processes 91.86s videos, extracts optical flow motion valleys, constructs graphs, and renders highlights.
+  - Confirmed that static 2D ImageNet-1K MobileNetV3 cannot recognize fine-grained actions (e.g. `cut onion`) due to vocabulary and temporal absence.
+  - Formulated the exact data and model recommendation: download small subset (5 videos, ~2.5 GB) + pretrained EPIC-KITCHENS-100 SlowFast / TSM checkpoint (~150 MB).
 - **Test Pass Rate:**
   - `pytest backend/tests/test_api.py`: 5/5 PASSED.
   - `python backend/tests/run_live_tests.py`: 5/5 PASSED.

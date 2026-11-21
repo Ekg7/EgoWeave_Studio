@@ -1,0 +1,97 @@
+{
+ "team_id": "T07",
+ "video_id": "P23_01",
+ "duration_sec": 91.86,
+ "label": {
+  "name": "cooking",
+  "score": 0.7
+ },
+ "actions": [
+  {
+   "segment": [
+    0.5,
+    7.0
+   ],
+   "verb": "other",
+   "noun": "other",
+   "score": 0.64
+  },
+  {
+   "segment": [
+    7.0,
+    13.0
+   ],
+   "verb": "other",
+   "noun": "other",
+   "score": 0.62
+  },
+  {
+   "segment": [
+    14.0,
+    16.0
+   ],
+   "verb": "other",
+   "noun": "other",
+   "score": 0.61
+  },
+  {
+   "segment": [
+    20.0,
+    27.0
+   ],
+   "verb": "other",
+   "noun": "other",
+   "score": 0.6
+  },
+  {
+   "segment": [
+    28.0,
+    32.0
+   ],
+   "verb": "other",
+   "noun": "other",
+   "score": 0.6
+  },
+  {
+   "segment": [
+    36.5,
+    40.0
+   ],
+   "verb": "other",
+   "noun": "other",
+   "score": 0.61
+  },
+  {
+   "segment": [
+    59.1,
+    64.1
+   ],
+   "verb": "other",
+   "noun": "other",
+   "score": 0.6
+  },
+  {
+   "segment": [
+    77.6,
+    80.1
+   ],
+   "verb": "other",
+   "noun": "other",
+   "score": 0.61
+  }
+ ],
+ "highlights": [
+  {
+   "segment": [
+    0.5,
+    7.0
+   ]
+  },
+  {
+   "segment": [
+    59.1,
+    64.1
+   ]
+  }
+ ]
+}
