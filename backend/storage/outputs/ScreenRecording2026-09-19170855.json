@@ -3,27 +3,18 @@
  "video_id": "ScreenRecording2026-09-19170855",
  "duration_sec": 8.7,
  "label": {
-  "name": "cooking",
-  "score": 0.92
+  "name": "other",
+  "score": 0.75
  },
  "actions": [
   {
    "segment": [
-    1.5,
+    4.5,
     8.0
    ],
-   "verb": "pour",
-   "noun": "bottle",
-   "score": 0.51
-  },
-  {
-   "segment": [
-    3.0,
-    8.0
-   ],
-   "verb": "pour",
-   "noun": "oil",
-   "score": 0.6
+   "verb": "other",
+   "noun": "other",
+   "score": 0.68
   }
  ],
  "highlights": [

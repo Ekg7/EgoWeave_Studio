@@ -132,19 +132,22 @@ class VisualBackbone:
 
         batch_tensor = np.array(processed, dtype=np.float32)
 
-        # Forward pass through MobileNetV3
-        logits = self.model(batch_tensor, training=False).numpy()
+        # Forward pass through MobileNetV3 (already outputs softmax probability distribution across 1000 classes)
+        raw_output = self.model(batch_tensor, training=False).numpy()
 
-        # Compute softmax probabilities
-        exp_logits = np.exp(logits - np.max(logits, axis=-1, keepdims=True))
-        probs = exp_logits / np.sum(exp_logits, axis=-1, keepdims=True)
+        # MobileNetV3 with include_top=True has a softmax output layer.
+        # Ensure numerical stability and valid probability normalization.
+        probs = np.clip(raw_output, 1e-7, 1.0)
+        probs = probs / np.sum(probs, axis=-1, keepdims=True)
 
-        # Extract concept-specific scores
+        # Extract concept-specific scores using max activation across synonymous synsets.
+        # Using np.max prevents concepts with multiple synsets (e.g. bottle, cooking)
+        # from artificially dominating single-synset concepts.
         concept_scores = {}
         for concept, indices in self.concept_indices.items():
             valid_indices = [idx for idx in indices if idx < probs.shape[1]]
             if valid_indices:
-                concept_scores[concept] = np.sum(probs[:, valid_indices], axis=1)
+                concept_scores[concept] = np.max(probs[:, valid_indices], axis=1)
             else:
                 concept_scores[concept] = np.zeros(len(frames), dtype=np.float32)
 

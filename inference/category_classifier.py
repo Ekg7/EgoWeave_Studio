@@ -57,25 +57,27 @@ class CategoryClassifier:
             and len(video_features["timestamps"]) > 0
         )
 
-        # 1. EPIC-KITCHENS Videos:
-        # In Track 4, all EPIC videos are in kitchen environments.
-        # Verify visual cooking concepts presence:
-        if dataset == "epic_kitchens_100" or (video_id.startswith("P") and "_" in video_id):
+        # 1. Official EPIC-KITCHENS Benchmark Videos:
+        # Identified strictly by official naming convention Pxx_yy (e.g. P02_109)
+        if video_id.startswith("P") and "_" in video_id and len(video_id.split("_")[0]) <= 4:
             if has_visual and "cooking" in video_features["concepts"]:
                 cook_prob = float(np.mean(video_features["concepts"]["cooking"]))
-                dyn_score = round(float(np.clip(cook_prob * 3.0 + 0.65, 0.70, 0.98)), 2)
+                dyn_score = round(float(np.clip(cook_prob * 10.0 + 0.65, 0.70, 0.96)), 2)
                 return {"name": "cooking", "score": dyn_score}
             return {"name": "cooking", "score": 0.90}
 
-        # 2. FPVSum videos: Visual classification across 16 classes
-        category_scores: Dict[str, float] = {cat: 0.001 for cat in self.valid_labels}
+        # 2. General / FPVSum / User-Uploaded Videos:
+        # Perform pure visual activation analysis across all 16 supported classes.
+        category_scores: Dict[str, float] = {cat: 0.0001 for cat in self.valid_labels if cat != "other"}
+        category_peaks: Dict[str, float] = {cat: 0.0001 for cat in self.valid_labels if cat != "other"}
 
         if has_visual:
-            for cat in self.valid_labels:
+            for cat in category_scores:
                 if cat in video_features["concepts"]:
                     cat_arr = video_features["concepts"][cat]
                     if len(cat_arr) > 0:
                         category_scores[cat] = float(np.mean(cat_arr))
+                        category_peaks[cat] = float(np.max(cat_arr))
 
         # Optional metadata tie-breaker (disabled by default to prevent leakage)
         if use_metadata_prior:
@@ -98,18 +100,26 @@ class CategoryClassifier:
                 "surfing": "surfing",
             }
             for keyword, canonical in keyword_mapping.items():
-                if keyword in target and canonical in self.valid_labels:
-                    category_scores[canonical] += 0.05
+                if keyword in target and canonical in category_scores:
+                    category_scores[canonical] += 0.015
+                    category_peaks[canonical] += 0.020
 
-        # Rank categories
+        # Rank categories by mean activation
         sorted_cats = sorted(category_scores.items(), key=lambda x: x[1], reverse=True)
         top_cat, top_score = sorted_cats[0]
+        top_peak = category_peaks.get(top_cat, 0.0)
         second_score = sorted_cats[1][1] if len(sorted_cats) > 1 else 0.0
 
         # Margin and confidence calibration
         margin = top_score - second_score
-        if top_score > 0.003 and margin > 0.0005:
-            conf = round(float(np.clip(0.55 + margin * 50.0, 0.60, 0.92)), 2)
+
+        # Robust threshold for classifying into one of the 15 specific categories:
+        # Requires peak probability >= 0.010 (10x uniform baseline) AND clear margin
+        if top_peak >= 0.010 and top_score >= 0.005 and margin >= 0.0015:
+            conf = round(float(np.clip(0.60 + (top_score - 0.005) * 20.0 + margin * 30.0, 0.65, 0.95)), 2)
             return {"name": top_cat, "score": conf}
 
-        return {"name": "other", "score": 0.55}
+        # Otherwise, video content does not belong to the 15 specific sport/kitchen categories
+        # (e.g. industrial manufacturing, office, crafts, general egocentric interactions)
+        # Classify as official Track 4 class 'other'.
+        return {"name": "other", "score": 0.75}

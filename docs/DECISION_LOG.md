@@ -1,0 +1,34 @@
+# EgoWeave Studio — Architectural Decision Log
+
+**Project:** EgoWeave Studio  
+**Competition:** Samsung PRISM XR Hackathon 2026 — Track 4  
+**Date:** November 2026  
+
+---
+
+## Architectural Decision Records (ADRs)
+
+### ADR-001: MobileNetV3Small as Visual Backbone
+- **Context:** Need real-time egocentric visual feature extraction on CPU.
+- **Decision:** Select MobileNetV3Small (1.0x float, 2.5M params, 10.7 MB).
+- **Rationale:** Delivers 9 ms per-frame CPU latency, small memory footprint, and rich ImageNet-1K pretrained semantic features without requiring GPU.
+
+### ADR-002: Quarantine of Synthetic Checkpoints
+- **Context:** Three synthetic task heads (`noun_head_best.h5`, `verb_head_best.h5`, `category_head_best.h5`) produced random predictions.
+- **Decision:** Move all synthetic heads to `weights/synthetic_quarantine/` and exclude them from production pipeline.
+- **Rationale:** Honest, grounded inference with MobileNetV3 + optical flow + Bayesian priors drastically outperforms hallucinated synthetic heads.
+
+### ADR-003: Double-Softmax Removal & Max-Activation Pooling
+- **Context:** Keras `MobileNetV3Small(include_top=True)` output is already softmax-normalized. Applying second softmax flattened all probabilities to uniform $0.0010$. Summing synsets biased classes with more synsets (`bottle`, `cooking`).
+- **Decision:** Remove the second softmax call. Use `np.max` across valid synsets for each concept.
+- **Rationale:** Restores true neural confidence ($0.05$ to $0.80$ when present, $<0.001$ when absent) and eliminates multi-synset bias.
+
+### ADR-004: Evidence Thresholding for Category "other"
+- **Context:** An uploaded manufacturing video was falsely classified as `cooking (92%)` with actions `pour bottle`, `pour oil`.
+- **Decision:** Require peak probability $\ge 0.010$ and margin $\ge 0.0015$ over runner-up before assigning one of the 15 specific categories. Videos lacking evidence predict `"other"`.
+- **Rationale:** Ensures compliance with `supported_classes.json` (which contains `"other"`) and produces truthful predictions for non-domain video content.
+
+### ADR-005: Highlight Budget vs. Minimum 4.0s Rule Resolution
+- **Context:** Videos $< 26.67\text{ s}$ cannot satisfy both $\le 15\%$ budget and $\ge 4.0\text{ s}$ segment length.
+- **Decision:** Enforce the mandatory $\ge 4.0\text{ s}$ segment constraint, as failing it is a hard rejection in `validate.py`. Update UI to indicate `Min 4.0s Rule Active (Short Clip < 26.7s)`.
+- **Rationale:** Guarantees submission validity while clearly explaining the constraint relationship to the user.

@@ -147,7 +147,7 @@ class ActionRecognizer:
                 if actionness > 0.18:
                     detected_nouns_and_confs: List[Tuple[str, float]] = []
 
-                    # 1. Visual Object Detection via Pretrained Backbone
+                    # 1. Visual Object Grounding via Pretrained Backbone
                     if has_visual:
                         ts_arr = video_features["timestamps"]
                         mask = (ts_arr >= curr_start - 0.2) & (ts_arr <= curr_end + 0.2)
@@ -159,13 +159,15 @@ class ActionRecognizer:
                                     local_mean = float(np.mean(arr[mask]))
                                     base = global_baselines.get(c, 1e-4)
                                     ratio = local_mean / base
-                                    concept_scores[c] = local_mean * (1.0 + min(3.0, ratio))
+                                    # Object must exhibit genuine visual evidence (at least 8x uniform prior or 1.25x baseline)
+                                    if local_mean >= 0.008 or (local_mean >= 0.004 and ratio >= 1.25):
+                                        concept_scores[c] = local_mean * (1.0 + min(3.0, ratio))
 
                             if concept_scores:
                                 sorted_concepts = sorted(concept_scores.items(), key=lambda x: x[1], reverse=True)
                                 top_score = sorted_concepts[0][1]
                                 for top_c, c_score in sorted_concepts[:2]:
-                                    if c_score < 0.45 * top_score:
+                                    if c_score < 0.60 * top_score:
                                         continue
                                     d_noun = None
                                     if top_c in self.nouns:
@@ -174,20 +176,9 @@ class ActionRecognizer:
                                         d_noun = "onion" if "onion" in self.nouns else "vegetable"
                                     elif top_c in ["drawer", "door"]:
                                         d_noun = "fridge" if "fridge" in self.nouns else "cupboard"
-                                    n_conf = min(0.95, max(0.50, c_score * 2.0 + 0.45))
+                                    n_conf = min(0.95, max(0.50, c_score * 5.0 + 0.40))
                                     if d_noun and (d_noun, n_conf) not in detected_nouns_and_confs:
                                         detected_nouns_and_confs.append((d_noun, n_conf))
-
-                    # Fallback noun selection if visual detection is unavailable
-                    if not detected_nouns_and_confs:
-                        t_ratio = (curr_start + curr_end) / (2.0 * max(1.0, total_duration))
-                        if t_ratio < 0.25:
-                            f_noun = "fridge" if "fridge" in self.nouns else "plate"
-                        elif t_ratio < 0.65:
-                            f_noun = "knife" if avg_motion > 0.45 else "onion"
-                        else:
-                            f_noun = "tap" if "tap" in self.nouns else "knife"
-                        detected_nouns_and_confs.append((f_noun, 0.60))
 
                     # 2. Verb Affordance Mapping & Boundary Snapping
                     snapped_start = max(0.0, self._snap_to_motion_valley(curr_start, motion_profile, window=0.5))
@@ -195,58 +186,69 @@ class ActionRecognizer:
                     if snapped_end - snapped_start < 1.0:
                         snapped_end = min(total_duration, round(snapped_start + max(1.5, win_len), 1))
 
-                    for detected_noun, noun_conf in detected_nouns_and_confs:
-                        candidate_verbs: List[Tuple[str, float]] = []
-                        if detected_noun in ["knife", "spatula"]:
-                            if avg_motion > 0.40:
-                                candidate_verbs = [("cut", 0.92), ("take", 0.75)]
+                    if detected_nouns_and_confs:
+                        for detected_noun, noun_conf in detected_nouns_and_confs:
+                            candidate_verbs: List[Tuple[str, float]] = []
+                            if detected_noun in ["knife", "spatula"]:
+                                if avg_motion > 0.40:
+                                    candidate_verbs = [("cut", 0.92), ("take", 0.75)]
+                                else:
+                                    candidate_verbs = [("take", 0.86), ("put", 0.82), ("wash", 0.72)]
+                            elif detected_noun in ["onion", "vegetable", "meat", "bread", "food"]:
+                                if avg_motion > 0.42:
+                                    candidate_verbs = [("cut", 0.90), ("mix", 0.84)]
+                                else:
+                                    candidate_verbs = [("take", 0.82), ("put", 0.78), ("mix", 0.74)]
+                            elif detected_noun in ["pan", "pot"]:
+                                if avg_motion > 0.42:
+                                    candidate_verbs = [("mix", 0.86), ("take", 0.80)]
+                                else:
+                                    candidate_verbs = [("take", 0.85), ("put", 0.82), ("wash", 0.74)]
+                            elif detected_noun in ["plate", "bowl", "cup", "glass"]:
+                                candidate_verbs = [("take", 0.85), ("put", 0.82), ("wash", 0.76)]
+                            elif detected_noun in ["bottle", "oil", "water"]:
+                                candidate_verbs = [("pour", 0.90), ("take", 0.80), ("put", 0.78)]
+                            elif detected_noun in ["fridge", "cupboard", "microwave", "oven", "drawer", "door"]:
+                                candidate_verbs = [("open", 0.90), ("close", 0.86)]
+                            elif detected_noun in ["tap"]:
+                                candidate_verbs = [("turn-on", 0.91), ("turn-off", 0.89), ("wash", 0.82)]
+                            elif detected_noun in ["spoon", "fork"]:
+                                candidate_verbs = [("mix", 0.88), ("take", 0.82), ("scoop", 0.78)]
                             else:
-                                candidate_verbs = [("take", 0.86), ("put", 0.82), ("wash", 0.72)]
-                        elif detected_noun in ["onion", "vegetable", "meat", "bread", "food"]:
-                            if avg_motion > 0.42:
-                                candidate_verbs = [("cut", 0.90), ("mix", 0.84)]
-                            else:
-                                candidate_verbs = [("take", 0.82), ("put", 0.78), ("mix", 0.74)]
-                        elif detected_noun in ["pan", "pot"]:
-                            if avg_motion > 0.42:
-                                candidate_verbs = [("mix", 0.86), ("take", 0.80)]
-                            else:
-                                candidate_verbs = [("take", 0.85), ("put", 0.82), ("wash", 0.74)]
-                        elif detected_noun in ["plate", "bowl", "cup", "glass"]:
-                            candidate_verbs = [("take", 0.85), ("put", 0.82), ("wash", 0.76)]
-                        elif detected_noun in ["bottle", "oil", "water"]:
-                            candidate_verbs = [("pour", 0.90), ("take", 0.80), ("put", 0.78)]
-                        elif detected_noun in ["fridge", "cupboard", "microwave", "oven", "drawer", "door"]:
-                            candidate_verbs = [("open", 0.90), ("close", 0.86)]
-                        elif detected_noun in ["tap"]:
-                            candidate_verbs = [("turn-on", 0.91), ("turn-off", 0.89), ("wash", 0.82)]
-                        elif detected_noun in ["spoon", "fork"]:
-                            candidate_verbs = [("mix", 0.88), ("take", 0.82), ("scoop", 0.78)]
-                        else:
-                            candidate_verbs = [("take", 0.80), ("put", 0.75)]
+                                candidate_verbs = [("take", 0.80), ("put", 0.75)]
 
-                        # 3. Score candidate verb-noun pairs with Bayesian priors
-                        for verb, affordance in candidate_verbs:
-                            if self.verbs and verb not in self.verbs:
-                                continue
-                            if self.nouns and detected_noun not in self.nouns:
-                                continue
+                            # 3. Score candidate verb-noun pairs with Bayesian priors
+                            for verb, affordance in candidate_verbs:
+                                if self.verbs and verb not in self.verbs:
+                                    continue
+                                if self.nouns and detected_noun not in self.nouns:
+                                    continue
 
-                            prior = self.pair_priors.get((verb, detected_noun), 0.72)
-                            joint_score = (
-                                0.30 * actionness +
-                                0.35 * noun_conf +
-                                0.35 * (affordance * prior)
-                            )
-                            final_score = round(min(0.98, max(0.40, joint_score)), 2)
+                                prior = self.pair_priors.get((verb, detected_noun), 0.72)
+                                joint_score = (
+                                    0.30 * actionness +
+                                    0.35 * noun_conf +
+                                    0.35 * (affordance * prior)
+                                )
+                                final_score = round(min(0.98, max(0.40, joint_score)), 2)
 
-                            if final_score >= 0.48:
-                                candidates.append({
-                                    "segment": [snapped_start, snapped_end],
-                                    "verb": verb,
-                                    "noun": detected_noun,
-                                    "score": final_score,
-                                })
+                                if final_score >= 0.48:
+                                    candidates.append({
+                                        "segment": [snapped_start, snapped_end],
+                                        "verb": verb,
+                                        "noun": detected_noun,
+                                        "score": final_score,
+                                    })
+                    elif actionness > 0.35 and "other" in self.verbs and "other" in self.nouns:
+                        # Non-kitchen / generic action event with genuine physical motion (e.g. skiing, sports, assembly)
+                        # Aligned with official Track 4 sample (e.g. skiing_03.json)
+                        act_score = round(min(0.85, max(0.55, 0.45 + actionness * 0.4)), 2)
+                        candidates.append({
+                            "segment": [snapped_start, snapped_end],
+                            "verb": "other",
+                            "noun": "other",
+                            "score": act_score,
+                        })
 
                 curr_start += step
 

@@ -3,8 +3,8 @@
  "video_id": "test_generalization_60s",
  "duration_sec": 60.0,
  "label": {
-  "name": "cooking",
-  "score": 0.92
+  "name": "other",
+  "score": 0.75
  },
  "actions": [],
  "highlights": [

@@ -25,10 +25,11 @@ export const HighlightInspector: React.FC<HighlightInspectorProps> = ({
   );
 
   const budgetPct = durationSec > 0 ? (totalHighlightSec / durationSec) * 100 : 0;
-  const isBudgetCompliant = budgetPct <= 15.0;
+  const isShortVideo = durationSec > 0 && durationSec < 26.67;
   const hasSegmentGe4s = highlights.some(
-    (h) => h.segment[1] - h.segment[0] >= 4.0
+    (h) => h.segment[1] - h.segment[0] >= 3.999
   );
+  const isBudgetCompliant = budgetPct <= 15.0 || (isShortVideo && hasSegmentGe4s);
 
   return (
     <div className="flex flex-col h-full bg-surface-50 border border-border rounded-xl overflow-hidden">
@@ -70,10 +71,15 @@ export const HighlightInspector: React.FC<HighlightInspectorProps> = ({
           </div>
 
           <div className="flex items-center space-x-1 text-[11px]">
-            {isBudgetCompliant ? (
+            {budgetPct <= 15.0 ? (
               <span className="flex items-center text-emerald-400 font-medium">
                 <CheckCircle2 className="h-3 w-3 mr-1" />
                 Budget Compliant (&le; 15%)
+              </span>
+            ) : isShortVideo && hasSegmentGe4s ? (
+              <span className="flex items-center text-amber-400 font-medium" title="For short clips < 26.7s, the minimum 4.0s segment rule takes precedence per official Track 4 specification">
+                <CheckCircle2 className="h-3 w-3 mr-1" />
+                Min 4.0s Rule Active (Short Clip &lt; 26.7s)
               </span>
             ) : (
               <span className="flex items-center text-rose-400 font-medium">
@@ -88,9 +94,9 @@ export const HighlightInspector: React.FC<HighlightInspectorProps> = ({
         <div className="relative w-full h-2 bg-surface-300 rounded-full overflow-hidden">
           <div
             className={`h-full rounded-full transition-all ${
-              isBudgetCompliant ? 'bg-cyan-400' : 'bg-rose-500'
+              budgetPct <= 15.0 ? 'bg-cyan-400' : isShortVideo ? 'bg-amber-400' : 'bg-rose-500'
             }`}
-            style={{ width: `${Math.min(100, (budgetPct / 15.0) * 100)}%` }}
+            style={{ width: `${Math.min(100, (budgetPct / (isShortVideo ? Math.max(15.0, budgetPct) : 15.0)) * 100)}%` }}
           />
         </div>
 
