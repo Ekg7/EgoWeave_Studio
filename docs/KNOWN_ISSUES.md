@@ -43,3 +43,12 @@
 - **Issue:** Static 2D ImageNet-1K pretrained backbones lack vocabulary for common egocentric objects (e.g. `onion`, kitchen knives, cutting boards) and possess zero temporal awareness of verbs (`cut`, `pour`, `mix`, `wash`, `take`, `put`).
 - **Consequence:** In genuine cooking footage (such as `P23_01.mp4`), optical flow successfully isolates 8 motion intervals, but the visual model fails to ground `onion` ($p = 0.00022$) or `knife` ($p = 0.00283$), resulting in fallback `other / other` action predictions.
 - **Permanent Fix:** Requires replacing frame-by-frame 2D synset proxies with an egocentric video model (SlowFast / TSM) pretrained on EPIC-KITCHENS-100 verb-noun classes.
+
+---
+
+## 5. Synthetic Test Fixtures in `tests/sample_data/`
+
+- **Issue:** Files `test_demo.mp4` and `test_120s.mp4` in `tests/sample_data/` are synthetic geometric videos (black canvases with moving white dots/circles). Their companion files `test_demo.json` and `test_120s.json` are handcrafted unit-test fixtures containing arbitrary mock labels (`open fridge`, `cut onion`), not AI model outputs or genuine human annotations.
+- **Mitigation & Clean Boundary:**
+  - These files are preserved strictly as **software engineering pipeline fixtures** for testing throughput, video decoding, and schema compliance in `pytest`.
+  - They are strictly excluded from representing ML benchmark metrics. All future action recognition evaluations will be measured against authentic annotated datasets.

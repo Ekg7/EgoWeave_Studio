@@ -10,6 +10,7 @@
 
 | Exp ID | Configuration | Target Metric | Result | Decision |
 | :--- | :--- | :--- | :--- | :--- |
+| **EXP-00** | Synthetic pilot test fixtures (`test_demo.mp4`, `test_120s.mp4` vs mock JSONs) | Software pipeline throughput & metric formulas | Verified pipeline execution speed (5-8x realtime), JSON formatting, and metrics calculation. Action mAP was 0.0%. | **Pipeline Verified Only.** Confirmed that test files were synthetic mock fixtures (moving white circle on black canvas), not actual ML action recognition. |
 | **EXP-01** | Synthetic task heads (`noun_head_best.h5`, `verb_head_best.h5`) | Action mAP | Near zero accuracy; random predictions | **Failed.** Quarantined. |
 | **EXP-02** | MobileNetV3 + Farneback optical flow + double softmax | Action Coverage & Category Acc | Severe bias toward `cooking`, `pour bottle`, `pour oil` | **Flawed.** Diagnosed double-softmax flattening. |
 | **EXP-03** | MobileNetV3 (single softmax) + max-activation pooling | Category & Noun Grounding | Restored true activation ($0.05-0.80$), eliminated multi-synset bias | **Success.** Adopted into core pipeline. |

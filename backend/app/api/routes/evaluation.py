@@ -90,13 +90,11 @@ def get_evaluation_metrics():
                 "label_correct": bool(lbl_acc > 0.5)
             })
         else:
-            # For unannotated footage: calculate internal action coverage & consistency
+            # Unannotated footage: cannot compute supervised ground-truth metrics (mAP, F1, label accuracy)
             pred_actions = submission.get("actions", [])
             pred_hl = submission.get("highlights", [])
-            cov = compute_action_coverage(pred_hl, pred_actions, dur) if pred_actions else 0.80
-            amap = 0.60 if pred_actions else 0.50
-            f1 = 0.70
-            lbl_acc = 1.0 if ds == "epic_kitchens_100" else 0.85
+            # Self-coverage: percentage of predicted action intervals captured by predicted highlights
+            cov = compute_action_coverage(pred_hl, pred_actions, dur) if pred_actions else 0.0
 
             evaluated.append({
                 "video_id": vid,
@@ -104,11 +102,11 @@ def get_evaluation_metrics():
                 "duration_sec": dur,
                 "highlight_pct": hl_pct,
                 "action_count": act_cnt,
-                "status": "evaluated_unannotated",
+                "status": "unannotated",
                 "coverage_score": round(cov, 3),
-                "map_score": round(amap, 3),
-                "f1_score": round(f1, 3),
-                "label_correct": True
+                "map_score": 0.0,
+                "f1_score": 0.0,
+                "label_correct": False
             })
 
     # If no videos processed yet, return default baseline benchmark
@@ -128,12 +126,22 @@ def get_evaluation_metrics():
             "per_video_results": []
         }
 
-    avg_cov = sum(r.get("coverage_score", 0) for r in evaluated) / len(evaluated)
-    avg_map = sum(r.get("map_score", 0) for r in evaluated) / len(evaluated)
-    avg_f1 = sum(r.get("f1_score", 0) for r in evaluated) / len(evaluated)
-    avg_label = sum(1.0 if r.get("label_correct") else 0.0 for r in evaluated) / len(evaluated)
+    # Separate ground-truth evaluated videos from unannotated clips
+    gt_evaluated = [r for r in evaluated if r["status"] == "evaluated_against_gt"]
 
-    total_score = compute_composite_score(avg_cov, avg_map, avg_f1, avg_label)
+    if gt_evaluated:
+        avg_cov = sum(r.get("coverage_score", 0) for r in gt_evaluated) / len(gt_evaluated)
+        avg_map = sum(r.get("map_score", 0) for r in gt_evaluated) / len(gt_evaluated)
+        avg_f1 = sum(r.get("f1_score", 0) for r in gt_evaluated) / len(gt_evaluated)
+        avg_label = sum(1.0 if r.get("label_correct") else 0.0 for r in gt_evaluated) / len(gt_evaluated)
+        total_score = compute_composite_score(avg_cov, avg_map, avg_f1, avg_label)
+    else:
+        # No ground-truth reference files present
+        avg_cov = sum(r.get("coverage_score", 0) for r in evaluated) / len(evaluated)
+        avg_map = 0.0
+        avg_f1 = 0.0
+        avg_label = 0.0
+        total_score = compute_composite_score(avg_cov, avg_map, avg_f1, avg_label)
 
     return {
         "team_id": TEAM_ID,
