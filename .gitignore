@@ -11,7 +11,17 @@ frontend/node_modules/
 frontend/.vite/
 
 # Large binaries and portable tools (FFmpeg, Node binaries)
-tools/
+tools/ffmpeg/
+tools/node/
+tools/*.exe
+tools/*.zip
+tools/*.tar.gz
+
+# Large Pretrained Weights (> 50 MB)
+weights/epic_kitchens/*.ckpt
+weights/epic_kitchens/*.pyth
+!weights/epic_kitchens/.gitkeep
+!weights/epic_kitchens/README.md
 
 # Storage & Runtime databases
 backend/storage/*.db
@@ -19,6 +29,9 @@ backend/storage/uploads/*
 !backend/storage/uploads/.gitkeep
 backend/storage/highlights/*
 !backend/storage/highlights/.gitkeep
+
+# Raw Video Datasets
+data/raw/
 
 # Environment & Logs
 .env

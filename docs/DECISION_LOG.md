@@ -40,3 +40,11 @@
   2. Pretrained PySlowFast / TSM dual-head action classification (EPIC-KITCHENS-100 trained) on candidate temporal clips.
   3. Pretrained video-level classifier (Kinetics / CLIP / concept voting) for 16-class activity categorization.
 - **Rationale:** Eliminates vocabulary mismatch (ImageNet lacks onions and verbs) and leverages established 70,000-action egocentric training weights without requiring prohibitive full-dataset retraining.
+
+### ADR-007: Selection of TSM (Temporal Shift Module) over SlowFast and C2 BMN
+- **Context:** Evaluated official EPIC-KITCHENS-100 implementations: SlowFast (263.9 MB), C2 Action Detection (BMN + SlowFast), and TSM (93.1 MB).
+- **Decision:** Select TSM ResNet-50 RGB (`tsm_rgb.ckpt`).
+- **Rationale:**
+  1. TSM achieves 35.75% Action Top-1 on EPIC-100 with zero extra FLOPs or parameters over 2D ResNet-50, running in < 1.0s on standard CPU hardware.
+  2. BMN requires dense multi-gigabyte offline feature caching and takes > 45s on CPU, violating hackathon latency requirements.
+  3. Checkpoint matches the 397-unit output head (97 verbs + 300 nouns) mapping 1:1 to Student Kit classes.

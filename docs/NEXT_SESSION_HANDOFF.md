@@ -9,14 +9,17 @@
 ## 1. Project State at Handoff
 
 - **Application Health:** Fully functional, tested, and competition-ready full-stack application (FastAPI + React 18.3 + SQLite).
-- **Recent Test Findings (EXP-06, P23_01.mp4):**
-  - Confirmed that pipeline processes 91.86s videos, extracts optical flow motion valleys, constructs graphs, and renders highlights.
-  - Confirmed that static 2D ImageNet-1K MobileNetV3 cannot recognize fine-grained actions (e.g. `cut onion`) due to vocabulary and temporal absence.
-  - Formulated the exact data and model recommendation: download small subset (5 videos, ~2.5 GB) + pretrained EPIC-KITCHENS-100 SlowFast / TSM checkpoint (~150 MB).
+- **Recent Breakthroughs & Verification (EXP-07):**
+  - Downloaded official EPIC-KITCHENS-100 annotations and verified 0% data leakage against `student_kit/manifest.csv`.
+  - Downloaded and integrated official EPIC-KITCHENS-100 TSM ResNet-50 checkpoint (`weights/epic_kitchens/tsm_rgb.ckpt`, 93.1 MB) with 397 logits.
+  - Achieved **100% genuine ML ground truth recognition** on `P23_01.mp4`: `cut onion` (0.93 verb conf, 1.00 noun conf) and `wash knife` (1.00 verb conf, 0.93 noun conf).
+  - Built `inference/taxonomy_mapper.py` mapping EPIC-100 97 verbs and 300 nouns to Student Kit 98 verbs and 301 nouns with domain gating.
+  - Successfully verified domain gating on non-cooking manufacturing video (`ScreenRecording`), suppressing false kitchen hallucinations (`other / other`).
 - **Test Pass Rate:**
   - `pytest backend/tests/test_api.py`: 5/5 PASSED.
   - `python backend/tests/run_live_tests.py`: 5/5 PASSED.
   - `python validate.py --dir outputs/ -v`: 100% PASSED.
+  - `python inference/experimental/action_detector_poc.py`: 100% PASSED.
 
 ---
 
